@@ -1,0 +1,44 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Template"
+config/features=PackedStringArray("4.6", "GL Compatibility")
+
+[audio]
+
+buses/default_bus_layout="uid://chv7np8s2h3xb"
+
+[autoload]
+
+Constants="*uid://cwpv4k88hrjp8"
+SignalBus="*uid://dfg446we6cjuf"
+Audio="*uid://u667oxtfhehb"
+
+[file_customization]
+
+folder_colors={
+"res://AddOns/": "yellow",
+"res://Common/": "blue",
+"res://Entities/": "red",
+"res://Levels/": "green",
+"res://Systems/": "purple"
+}
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+rendering_device/driver.windows="d3d12"
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
