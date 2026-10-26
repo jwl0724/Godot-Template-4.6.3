@@ -64,13 +64,17 @@ func _ready() -> void:
 
 # ---- SOUND EFFECTS FUNCTIONS ----
 ## Plays an sound effect clip immediately, throws an error if lower pitch is higher than upper
-func play_sound(clip: AudioStream, lower_pitch: float = 1, upper_pitch: float = 1):
+func play_sound(clip: AudioStream, lower_pitch: float = 1, upper_pitch: float = 1, bus_name: String = Constants.AudioBus.DefaultSFX):
     if lower_pitch > upper_pitch:
         printerr("The provided lower pitch: %f is greater than the provided upper pitch: %f" % [lower_pitch, upper_pitch])
+        return
+    if AudioServer.get_bus_index(bus_name) == -1:
+        printerr("The bus name %s does not exist in the list of audio buses" % bus_name)
         return
 
     var audio = sounds_pool.get_first_free()
     audio.stream = clip
+    audio.bus = bus_name
     audio.pitch_scale = randf_range(lower_pitch, upper_pitch)
     audio.play()
 
