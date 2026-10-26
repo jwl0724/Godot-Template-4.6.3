@@ -23,6 +23,7 @@ buses/default_bus_layout="uid://chv7np8s2h3xb"
 Constants="*uid://cwpv4k88hrjp8"
 SignalBus="*uid://dfg446we6cjuf"
 Audio="*uid://u667oxtfhehb"
+Load="*uid://buwnaa7trg8w1"
 
 [file_customization]
 
