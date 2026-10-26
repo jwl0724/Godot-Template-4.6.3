@@ -32,7 +32,7 @@ class _SoundsPool:
 
 # Private class to hold playlist data
 class _Playlist:
-    var tracks: Array[AudioStream]
+    var tracks: Array[AudioStream] = []
     var index: int = 0
     var fade_start_time: float = 0 ## Fade time to stop the music
     var fade_stop_time: float = 0 ## Fade time to start the music
@@ -45,6 +45,9 @@ var sounds_pool: _SoundsPool = _SoundsPool.new(self)
 var playlist: _Playlist = _Playlist.new()
 var music_pair: _MusicPair
 
+var currently_playing: AudioStream:
+    get: return music_pair.using.stream
+
 
 
 func _ready() -> void:
@@ -55,6 +58,8 @@ func _ready() -> void:
     p2.bus = Constants.AudioBus.DefaultMusic
     add_child(p1)
     add_child(p2)
+    p1.finished.connect(_on_track_finished.bind(p1))
+    p2.finished.connect(_on_track_finished.bind(p2))
     music_pair = _MusicPair.new(p1, p2)
 
 # ---- SOUND EFFECTS FUNCTIONS ----
@@ -67,13 +72,14 @@ func play_sound(clip: AudioStream, lower_pitch: float = 1, upper_pitch: float = 
     var audio = sounds_pool.get_first_free()
     audio.stream = clip
     audio.pitch_scale = randf_range(lower_pitch, upper_pitch)
+    audio.play()
 
 
 # ---- PLAYLIST FUNCTIONS ----
 ## Adds an audio stream to a playlist, duplicate streams cannot be added
 func add_to_playlist(stream: AudioStream) -> void:
     var music_index = playlist.tracks.find(stream)
-    if music_index == -1: push_warning("%s is already in the playlist and has not been added, is this intended behavior?")
+    if music_index != -1: push_warning("%s is already in the playlist and has not been added, is this intended behavior?" % stream.resource_name)
     else: playlist.tracks.append(stream)
 
 
@@ -105,13 +111,20 @@ func set_playlist_loop(do_loop: bool) -> void:
 
 
 ## Plays the audio stream at the provided index, throws error if the index is out of bounds
-func play_playlist(index: int, stop_fade: float, start_fade: float) -> void:
-    if index >= playlist.size():
-        printerr("The provided index %d is out of range of the playlist of size %d" % [index, playlist.size()])
+func play_playlist(index: int, stop_fade: float = 0, start_fade: float = 0) -> void:
+    if index >= playlist.tracks.size():
+        printerr("The provided index %d is out of range of the playlist of size %d" % [index, playlist.tracks.size()])
         return
     playlist.fade_stop_time = stop_fade
     playlist.fade_start_time = start_fade
     crossfade_music(playlist.tracks[index], playlist.fade_stop_time, playlist.fade_start_time)
+
+
+## Immediately jump to the next track in the playlist
+func play_next_playlist(stop_fade: float = 0, start_fade: float = 0):
+    playlist.index += 1
+    if playlist.index >= playlist.tracks.size(): playlist.index = 0
+    play_playlist(playlist.index, stop_fade, start_fade)
 
 # ---- BASE MUSIC FUNCTIONS ----
 ## Plays a track with a fade time, does nothing if the track is already playing the track provided
@@ -125,10 +138,11 @@ func play_music(stream: AudioStream, fade_time: float = 0) -> void:
 
     elif fade_time > 0:
         var current_player: AudioStreamPlayer = music_pair.using
+        current_player.stream = stream
         current_player.volume_linear = 0
+        current_player.play()
         var fade: Tween = create_tween()
         fade.tween_property(current_player, "volume_linear", 1, fade_time)
-        fade.tween_callback(func(): current_player.play())
         fade.play()
 
 
@@ -168,7 +182,8 @@ func set_music_loop(do_loop: bool) -> void:
 
 
 
-func _on_track_finished() -> void:
+func _on_track_finished(player: AudioStreamPlayer) -> void:
+    if player != music_pair.using: return
     if playlist.loop_track:
         music_pair.using.play()
 
