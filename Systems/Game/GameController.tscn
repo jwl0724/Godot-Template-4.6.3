@@ -5,7 +5,7 @@
 [node name="GameController" type="Node" unique_id=227253429]
 script = ExtResource("1_yl5u5")
 
-[node name="Node" type="Node" parent="." unique_id=1096348032]
+[node name="Systems" type="Node" parent="." unique_id=1096348032]
 
 [node name="Running2D" type="Node2D" parent="." unique_id=1048275769]
 

@@ -1,5 +1,8 @@
 extends Node
 
+
 # Audio Bus Names
-const AudioBus_DefaultMusic: String = "Default_Music"
-const AudioBus_DefaultSFX: String = "Default_SFX"
+class AudioBus:
+    const DefaultMusic: String = "Default_Music"
+    const DefaultSFX: String = "Default_SFX"
+
