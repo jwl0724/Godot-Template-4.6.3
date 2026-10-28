@@ -1,11 +1,15 @@
 [gd_scene format=3 uid="uid://b3pg1ple7wm2m"]
 
 [ext_resource type="Script" uid="uid://c0hnrrj4gcl5f" path="res://Systems/Game/game_controller.gd" id="1_yl5u5"]
+[ext_resource type="Script" uid="uid://ccpn33evpdkjf" path="res://Systems/Utils/MenuButtonSounds/menu_button_sounds.gd" id="2_gqpt8"]
 
 [node name="GameController" type="Node" unique_id=227253429]
 script = ExtResource("1_yl5u5")
 
 [node name="Systems" type="Node" parent="." unique_id=1096348032]
+
+[node name="ButtonSounds" type="Node" parent="Systems" unique_id=738953367]
+script = ExtResource("2_gqpt8")
 
 [node name="Running2D" type="Node2D" parent="." unique_id=1048275769]
 
