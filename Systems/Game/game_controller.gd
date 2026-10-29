@@ -8,6 +8,11 @@ class_name GameController
 @export var debug_mode: bool = false
 @export var debug_scene: PackedScene = null
 
+@onready var gui_layer: CanvasLayer = $GUI
+@onready var pause_layer: CanvasLayer = $Pause
+@onready var transition_layer: CanvasLayer = $Transition
+@onready var debug_layer: CanvasLayer = $Debug
+
 
 ## Changes the scene immediately without a loading screen
 func direct_change_scenes(new_scene: PackedScene) -> void:
