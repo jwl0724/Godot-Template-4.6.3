@@ -1,4 +1,6 @@
 extends Node
 @warning_ignore_start("unused_signal")
 
-# Put any global signals here that require cross-communication between systems
+const canvas_bus = preload("uid://4u4ylbx68vpe")
+
+var canvas: CanvasBus = canvas_bus.new()

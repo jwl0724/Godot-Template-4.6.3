@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://ckfukks60ytyp"]
+
+[ext_resource type="Script" uid="uid://bypl2005qatr7" path="res://Common/Transitions/basic_transitions.gd" id="1_lm515"]
+
+[node name="BasicTransitions" type="ColorRect" unique_id=1848569837]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lm515")
+
+[node name="Animation" type="AnimationPlayer" parent="." unique_id=983710063]

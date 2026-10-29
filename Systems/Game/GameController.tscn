@@ -2,11 +2,17 @@
 
 [ext_resource type="Script" uid="uid://c0hnrrj4gcl5f" path="res://Systems/Game/game_controller.gd" id="1_yl5u5"]
 [ext_resource type="Script" uid="uid://ccpn33evpdkjf" path="res://Systems/Utils/MenuButtonSounds/menu_button_sounds.gd" id="2_gqpt8"]
+[ext_resource type="Script" uid="uid://dfjxwx2lqxv7" path="res://Systems/Utils/SignalHandlers/canvas_signals.gd" id="2_iq1bj"]
+[ext_resource type="PackedScene" uid="uid://ckfukks60ytyp" path="res://Common/Transitions/BasicTransitions.tscn" id="3_q7v2m"]
 
 [node name="GameController" type="Node" unique_id=227253429]
 script = ExtResource("1_yl5u5")
 
 [node name="Systems" type="Node" parent="." unique_id=1096348032]
+
+[node name="CanvasSignals" type="Node" parent="Systems" unique_id=434665480 node_paths=PackedStringArray("controller")]
+script = ExtResource("2_iq1bj")
+controller = NodePath("../..")
 
 [node name="ButtonSounds" type="Node" parent="Systems" unique_id=738953367]
 script = ExtResource("2_gqpt8")
@@ -44,14 +50,7 @@ mouse_filter = 2
 process_mode = 3
 layer = 30
 
-[node name="Control" type="Control" parent="Transition" unique_id=939623198]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
+[node name="BasicTransitions" parent="Transition" unique_id=1848569837 instance=ExtResource("3_q7v2m")]
 
 [node name="Debug" type="CanvasLayer" parent="." unique_id=318372319]
 process_mode = 3
